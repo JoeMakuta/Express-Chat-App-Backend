@@ -1,5 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const router = require("./routes/route")
 require("dotenv").config()
 
 const PORT = 5000 || process.env.PORT
@@ -10,10 +11,7 @@ mongoose.connect(dbUrl)
    .then(() => console.log("DB Connexion succeded"))
    .catch((err) => console.log("An error occured", err))
 
-
+// Express Application
 const app = express();
-app
-   .use('/', (req, res) => {
-      res.json({ message: "Hello world ..." })
-   })
+app.use('/', router)
    .listen(PORT)
