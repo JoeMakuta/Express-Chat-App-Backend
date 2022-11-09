@@ -4,6 +4,6 @@ const userSchema = mongoose.Schema({
    userName: { type: String, required: true },
    userEmail: { type: String, required: true },
    passWord: { type: String, required: true },
-})
+}, { context: 'User-Data' })
 const userModel = mongoose.model('userModel', userSchema);
-module.exports = userModel;
+module.exports = userModel; 

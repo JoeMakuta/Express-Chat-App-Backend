@@ -2,7 +2,6 @@ const UserModel = require("../../models/authentification/authentificationSchema"
 // const bcrypt = require('bcryptjs')
 
 const signUp = (req, res) => {
-   delete req.body._id;
    const user = new UserModel({
       "userName": req.body.userName,
       "userEmail": req.body.userEmail,
