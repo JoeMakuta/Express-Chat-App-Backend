@@ -1,20 +1,34 @@
 const UserModel = require("../../models/authentification/authentificationSchema");
-// const bcrypt = require('bcryptjs')
+const cryptPassword = require('./cryptPassword')
 
 const signUp = (req, res) => {
-   const user = new UserModel({
-      "userName": req.body.userName,
-      "userEmail": req.body.userEmail,
-      "passWord": req.body.passWord,
-   })
-   user.save()
-      .then(() => {
-         res.status(200).json({ message: "Data saved success" })
+   const { userName, userEmail, passWord } = req.body
+
+   if (!userName || !userEmail || !passWord) {
+      res.status(400).json({ message: "Fill the fields ..." })
+   } else {
+      const cryptedPassword = cryptPassword(passWord);
+      const user = new UserModel({
+         "userName": userName,
+         "userEmail": userEmail,
+         "passWord": cryptedPassword,
       })
-      .catch((err) => {
-         console.log("Did not save data" + err)
-         res.json({ message: "Did not save data" })
-      })
+      user.save()
+         .then((data) => {
+            res.status(200).json({
+               message: "Data saved success",
+               data: data
+            })
+         })
+         .catch((err) => {
+            res.json({
+               message: "Did not save data",
+               error: err
+            })
+         })
+
+   }
+
 }
 
 module.exports = signUp;
