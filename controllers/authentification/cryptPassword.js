@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 
-const cryptPWD = (password) => {
-   return password
+const cryptPassword = async (password) => {
+   return await bcrypt.hash(password, 10)
 }
 
-module.exports = cryptPWD
+module.exports = cryptPassword
