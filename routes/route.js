@@ -6,7 +6,7 @@ const signUp = require('../controllers/authentification/signup')
 const router = express.Router()
 
 router.get('/', homePage)
-router.get('/login', loginPage)
+router.post('/login', loginPage)
 router.post('/signup', signUp)
 // router.get('/signup', signUp)
 
