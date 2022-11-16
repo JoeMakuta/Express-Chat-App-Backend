@@ -7,7 +7,7 @@ const loginPage = (req, res) => {
    UserModel.findOne({ userEmail: req.body.userEmail })
       .then(user => {
          if (!user) {
-            res.json({ message: 'User does not exist' })
+            res.status(404).json({ message: 'User does not exist' })
          } else {
             bcrypt.compare(req.body.passWord, user.passWord)
                .then(valid => {
@@ -20,7 +20,7 @@ const loginPage = (req, res) => {
                            expiresIn: '24h'
                         }
                      )
-                     res.status(200).json({ status: 200, token: token, message: 'Successfully logged in!' })
+                     res.status(200).json({ status: 200, token: token,userName: user.userName, message: 'Successfully logged in!' })
                   } else {
                      res.status(403).json({ status: 403, message: 'Password Incorect' })
                   }
