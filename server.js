@@ -1,6 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const router = require("./routes/route")
+const cors = require('cors')
 require("dotenv").config()
 
 const PORT = 5000 || process.env.PORT
@@ -14,6 +15,7 @@ mongoose.connect(dbUrl)
 // Express Application
 const app = express();
 app.use(express.json())
+app.use(cors())
 app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
    res.setHeader('Access-Control-Allow-Credentials', true)
