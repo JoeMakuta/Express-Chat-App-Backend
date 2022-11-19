@@ -19,6 +19,6 @@ router.post('/newConversation', newConversation)
 router.get('/getConversation/:userId', getConversation)
 
 router.post('/newMessage', newMessage)
-router.get('/getMessages/:conversationId', getMessages)
+router.get('/getMessages/:s/:r', getMessages)
 
 module.exports = router;

@@ -5,10 +5,10 @@ const newConversation = (req, res) => {
       members: [req.body.senderId, req.body.receiverId]
    })
    newConversation.save().then(
-      () => {res.status(200).json({message : "Data Saved Success"})}
+      (data) => { res.status(200).json(data) }
    ).catch(() => {
-      res.status(403).json({message : 'Could not save data'})
+      res.status(403).json({ message: 'Could not save data' })
    })
-} 
+}
 
 module.exports = newConversation

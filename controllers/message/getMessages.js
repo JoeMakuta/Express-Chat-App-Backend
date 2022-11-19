@@ -2,7 +2,8 @@ const messageModel = require('../../models/message/message')
 
 const getMessages = (req, res) => {
    messageModel.find({
-      conversationId: req.params.conversationId
+      senderId : req.params.s,
+      receiverId : req.params.r
    }).then((data) => {
       res.status(200).json({ messages: data })
    }).catch((err) => {

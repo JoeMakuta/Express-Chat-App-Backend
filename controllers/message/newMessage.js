@@ -3,7 +3,7 @@ const messageModel = require('../../models/message/message')
 
 const newMessage = (req, res) => {
    const newMessage = new messageModel({
-      conversationId: req.body.conversationId,
+      receiverId: req.body.receiverId,
       senderId: req.body.senderId,
       message: req.body.message,
    })
