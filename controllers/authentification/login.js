@@ -20,7 +20,7 @@ const loginPage = (req, res) => {
                            expiresIn: '24h'
                         }
                      )
-                     res.status(200).json({ status: 200, token: token,userName: user.userName, message: 'Successfully logged in!' })
+                     res.status(200).json({ status: 200, token, user, message: 'Successfully logged in!' })
                   } else {
                      res.status(403).json({ status: 403, message: 'Password Incorect' })
                   }
