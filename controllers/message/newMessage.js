@@ -3,8 +3,8 @@ const messageModel = require('../../models/message/message')
 
 const newMessage = (req, res) => {
    const newMessage = new messageModel({
-      receiverId: req.body.receiverId,
       senderId: req.body.senderId,
+      receiverId: req.body.receiverId,
       message: req.body.message,
    })
    newMessage.save().then((data) => {
