@@ -3,6 +3,8 @@ const mongoose = require("mongoose")
 const router = require("./routes/route")
 const cors = require('cors')
 require("dotenv").config()
+const socketio = require('socket.io')
+const http = require('http')
 
 const PORT = 5000 || process.env.PORT
 const dbUrl = process.env.DBURI
@@ -25,4 +27,22 @@ app.use((req, res, next) => {
    next();
 });
 app.use('/', router)
-   .listen(PORT)
+
+//Create an http server to access socket io
+const httpServer = http.createServer(app).listen(PORT)
+
+//Create a socket io object
+const io = socketio(httpServer, {
+   cors: {
+      origin: "*",
+   }
+})
+
+io.on('connection', (socket) => {
+   console.log('A user is connected ...');
+   socket.emit('message', () => {
+      console.log('A user just sent a message ...');
+   })
+})
+
+module.exports = io
