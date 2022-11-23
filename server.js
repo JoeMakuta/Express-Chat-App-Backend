@@ -40,8 +40,9 @@ const io = socketio(httpServer, {
 
 io.on('connection', (socket) => {
    console.log('A user is connected ...');
-   socket.emit('message', () => {
-      console.log('A user just sent a message ...');
+   socket.on('message', (data) => {
+      console.log('The socket data : ', data);
+      io.emit('ioMessages', data)
    })
 })
 
