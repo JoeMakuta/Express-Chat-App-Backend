@@ -6,6 +6,7 @@ const getConversation = require('../controllers/conversation/getConversation')
 const newConversation = require('../controllers/conversation/newConversation')
 const getMessages = require('../controllers/message/getMessages')
 const newMessage = require('../controllers/message/newMessage')
+const tokenAuth = require('../controllers/middleware/tokenAuth')
 const findUsers = require('../controllers/users/findUsers')
 
 const router = express.Router()
@@ -13,12 +14,12 @@ const router = express.Router()
 // router.get('/', homePage)
 router.post('/login', loginPage)
 router.post('/signup', signUp)
-router.get('/users', findUsers)
+router.get('/users', tokenAuth, findUsers)
 
 router.post('/newConversation', newConversation)
 router.get('/getConversation/:userId', getConversation)
 
-router.post('/newMessage', newMessage)
-router.get('/getMessages/:connectedUserId', getMessages)
+router.post('/newMessage', tokenAuth, newMessage)
+router.get('/getMessages/:connectedUserId', tokenAuth, getMessages)
 
 module.exports = router;
