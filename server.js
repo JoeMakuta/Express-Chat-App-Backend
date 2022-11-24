@@ -38,11 +38,23 @@ const io = socketio(httpServer, {
    }
 })
 
+const connectedUsersIds = {}
+
 io.on('connection', (socket) => {
-   console.log('A user is connected ...');
+
+   console.log('A user is connected : ', socket.id, 'UserId : ', socket.handshake.auth.userId);
+   connectedUsersIds[socket.handshake.auth.userId] = socket.id
+   console.log(connectedUsersIds);
+
    socket.on('message', (data) => {
       console.log('The socket data : ', data);
-      io.emit('ioMessages', data)
+
+      Object.keys(connectedUsersIds).forEach((elt) => {
+         if (elt === data.receiverId) {
+            socket.to(connectedUsersIds[elt]).emit('ioMessages', data)
+         }
+      }
+      )
    })
 })
 
