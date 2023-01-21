@@ -11,7 +11,7 @@ const findUsers = require('../controllers/users/findUsers')
 
 const router = express.Router()
 
-// router.get('/', homePage)
+router.get('/', homePage)
 router.post('/login', loginPage)
 router.post('/signup', signUp)
 router.get('/users', tokenAuth, findUsers)
