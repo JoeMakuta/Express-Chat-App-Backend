@@ -8,9 +8,9 @@ const signUp = async (req, res) => {
       res.status(400).json({ message: "Fill the fields ..." })
    }
    else {
-      console.log('The password is ', passWord);
+      // console.log('The password is ', passWord);
       const cryptedPassword = await cryptPassword(passWord);
-      console.log('The crypted password is ', cryptedPassword);
+      // console.log('The crypted password is ', cryptedPassword);
 
       UserModel.findOne({ userEmail: req.body.userEmail })
          .then(user => {

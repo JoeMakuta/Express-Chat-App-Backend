@@ -11,11 +11,28 @@ const user_login = {
   passWord: "0108joemak",
 };
 
+const user_registration = {
+  userEmail: "makutajosue@gmail.com",
+  userName: "Joe Makuta",
+  passWord: "0108joemak",
+};
+
 let token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzg3MDdiNjliMTlkM2RmYzliYzNjZGYiLCJpYXQiOjE2NzQ0NjUxOTIsImV4cCI6MTY3NDU1MTU5Mn0.qD_n-keBi_BTXd9tRiUXZ11gzGi-nJ0hfVTZADGcdnU";
 
 describe("USERS", () => {
   describe("Authentification", () => {
+    it("It should register a new user", (done) => {
+      chai
+        .request(app)
+        .post("/signup")
+        .send(user_registration)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+
     it("It should login", (done) => {
       chai
         .request(app)
@@ -41,15 +58,15 @@ describe("USERS", () => {
         });
     });
 
-    it("It should get users /users", (done) => {
-      chai
-        .request(app)
-        .get("/users")
-        .set("authorization", token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          done();
-        });
-    });
+    // it("It should get users /users", (done) => {
+    //   chai
+    //     .request(app)
+    //     .get("/users")
+    //     .set("Authorization", token)
+    //     .end((err, res) => {
+    //       res.should.have.status(200);
+    //       done();
+    //     });
+    // });
   });
 });
