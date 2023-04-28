@@ -2,9 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = require("./routes/route");
 const cors = require("cors");
-require("dotenv").config();
-const socketio = require("socket.io");
-const http = require("http");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const PORT = 5000 || process.env.PORT;
 const dbUrl = process.env.DBURI;
@@ -35,37 +35,10 @@ app.use((req, res, next) => {
 });
 app.use("/", router);
 
-//Create an http server to access socket io
-const httpServer = http.createServer(app).listen(PORT);
-
-//Create a socket io object
-const io = socketio(httpServer, {
-  cors: {
-    origin: "*",
-  },
+app.listen(PORT, () => {
+  console.log("====================================");
+  console.log("The server started on http://localhost:" + PORT);
+  console.log("====================================");
 });
 
-const connectedUsersIds = {};
-
-io.on("connection", (socket) => {
-  console.log(
-    "A user is connected : ",
-    socket.id,
-    "UserId : ",
-    socket.handshake.auth.userId
-  );
-  connectedUsersIds[socket.handshake.auth.userId] = socket.id;
-  console.log(connectedUsersIds);
-
-  socket.on("message", (data) => {
-    console.log("The socket data : ", data);
-
-    Object.keys(connectedUsersIds).forEach((elt) => {
-      if (elt === data.receiverId) {
-        socket.to(connectedUsersIds[elt]).emit("ioMessages", data);
-      }
-    });
-  });
-});
-
-module.exports = { io, app };
+module.exports = app;

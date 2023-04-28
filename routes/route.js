@@ -20,6 +20,6 @@ router.post("/newConversation", newConversation);
 router.get("/getConversation/:userId", getConversation);
 
 router.post("/newMessage", tokenAuth, newMessage);
-router.get("/getMessages/:connectedUserId", tokenAuth, getMessages);
+router.get("/getMessages", tokenAuth, getMessages);
 
 module.exports = router;
