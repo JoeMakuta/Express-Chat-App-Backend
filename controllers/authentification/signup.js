@@ -25,7 +25,6 @@ const signUp = async (req, res) => {
           .then((data) => {
             res.status(200).json({
               message: "Data saved success !",
-              data: data,
             });
           })
           .catch((err) => {

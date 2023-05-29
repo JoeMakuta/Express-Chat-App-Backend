@@ -6,4 +6,4 @@ const generateToken = (userId, expiresIn) => {
   return jwt.sign(userId, PAYLOAD, expiresIn);
 };
 
-module.exports = generateToken;
+export default generateToken;

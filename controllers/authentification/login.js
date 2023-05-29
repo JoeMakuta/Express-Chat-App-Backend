@@ -12,9 +12,10 @@ const loginPage = (req, res) => {
   UserModel.findOne({ userEmail: userEmail })
     .then(async (user) => {
       if (!user) {
-        res.status(404).json({ message: "User does not exist" });
+        res
+          .status(404)
+          .json({ status: 404, message: "Incorrect Email or Password!" });
       } else {
-        console.log("The user : ", user);
         try {
           const valid = await bcrypt.compare(passWord, user.passWord);
 
@@ -24,17 +25,19 @@ const loginPage = (req, res) => {
             });
             res.status(200).json({
               status: 200,
+              message: "Successfully logged in!",
               token,
               user,
-              message: "Successfully logged in!",
             });
           } else {
-            res.status(403).json({ status: 403, message: "Password Incorect" });
+            res
+              .status(403)
+              .json({ status: 403, message: "Incorrect Email or Password!" });
           }
         } catch (error) {
           res.status(403).json({
             status: 403,
-            message: "User not Valid",
+            message: "Incorrect Email or Password!",
             error: error.stack,
           });
         }

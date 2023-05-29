@@ -4,7 +4,7 @@ const conversationSchema = mongoose.Schema(
   {
     members: { type: Array },
   },
-  { collection: "Conversations-Data" }
+  { collection: "Conversations-Data", timestamps: true }
 );
 
 const conversationModel = mongoose.model(
