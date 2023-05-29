@@ -1,8 +1,8 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const router = require("./routes/route");
-const cors = require("cors");
-const dotenv = require("dotenv");
+import express from "express";
+import mongoose from "mongoose";
+import router from "./routes/route.js";
+import cors from "cors";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -41,4 +41,4 @@ app.listen(PORT, () => {
   console.log("====================================");
 });
 
-module.exports = app;
+export default app;

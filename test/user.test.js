@@ -1,6 +1,6 @@
-const app = require("../server").app;
-const chaiHttp = require("chai-http");
-const chai = require("chai");
+import app from "../server";
+import chaiHttp from "chai-http";
+import chai from "chai";
 
 //Assertion Style
 const should = chai.should();

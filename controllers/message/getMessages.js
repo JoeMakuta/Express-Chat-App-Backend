@@ -1,4 +1,4 @@
-const messageModel = require("../../models/message/message");
+import messageModel from "../../models/message/message.js";
 
 const getMessages = (req, res) => {
   messageModel
@@ -13,4 +13,4 @@ const getMessages = (req, res) => {
     });
 };
 
-module.exports = getMessages;
+export default getMessages;

@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 const { PAYLOAD } = process.env;
 
@@ -11,8 +11,8 @@ const tokenAuth = (req, res, next) => {
     };
     next();
   } catch (err) {
-    res.status(401).json({ err: err });
+    res.status(401).json({ message: err.message, err: err.stack });
   }
 };
 
-module.exports = tokenAuth;
+export default tokenAuth;

@@ -1,37 +1,37 @@
-const UserModel = require("../../models/authentification/authentificationSchema");
-const cryptPassword = require("./cryptPassword");
+import UserModel from "../../models/authentification/authentificationSchema.js";
+import cryptPassword from "./cryptPassword.js";
 
 const signUp = async (req, res) => {
-  const { userName, userEmail, passWord } = req.body;
+  const { fName, lName, dateOfBirth, userName, userEmail, passWord } = req.body;
 
   if (!userName || !userEmail || !passWord) {
-    res.status(400).json({ message: "Fill the fields ..." });
+    res.status(400).json({ message: "Fill in the required fields ..." });
   } else {
-    // console.log('The password is ', passWord);
     const cryptedPassword = await cryptPassword(passWord);
-    // console.log('The crypted password is ', cryptedPassword);
-
-    UserModel.findOne({ userEmail: req.body.userEmail }).then((user) => {
+    UserModel.findOne({ $or: [{ userEmail }, { userName }] }).then((user) => {
       if (user) {
-        res.status(403).json({ status: 403, message: "Email used" });
+        res.status(403).json({ status: 403, message: "Credentials used !" });
       } else {
         const user = new UserModel({
-          userName: userName,
-          userEmail: userEmail,
+          fName,
+          lName,
+          dateOfBirth,
+          userName,
+          userEmail,
           passWord: cryptedPassword,
         });
         user
           .save()
           .then((data) => {
             res.status(200).json({
-              message: "Data saved success",
+              message: "Data saved success !",
               data: data,
             });
           })
           .catch((err) => {
             res.status(400).json({
-              message: "Did not save data",
-              error: err,
+              message: "Could not save data !",
+              error: err?.message,
             });
           });
       }
@@ -39,4 +39,4 @@ const signUp = async (req, res) => {
   }
 };
 
-module.exports = signUp;
+export default signUp;

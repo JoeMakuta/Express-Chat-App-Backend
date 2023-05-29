@@ -1,13 +1,14 @@
-const UserModel = require("../../models/authentification/authentificationSchema");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-require("dotenv").config();
+import UserModel from "../../models/authentification/authentificationSchema.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 const { PAYLOAD, TOKEN_EXPIRES_IN } = process.env;
 
 const loginPage = (req, res) => {
   const { userEmail, passWord } = req.body;
+
   UserModel.findOne({ userEmail: userEmail })
     .then(async (user) => {
       if (!user) {
@@ -40,8 +41,10 @@ const loginPage = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(403).json({ status: 403, message: "Error server" });
+      res
+        .status(403)
+        .json({ status: 403, message: "Error server", err: err.stack });
     });
 };
 
-module.exports = loginPage;
+export default loginPage;

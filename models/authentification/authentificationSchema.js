@@ -1,7 +1,14 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema(
   {
+    fName: { type: String, required: true },
+    lName: { type: String, required: true },
+    dateOfBirth: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+    },
     userName: { type: String, required: true },
     userEmail: { type: String, required: true, unique: true },
     passWord: { type: String, required: true },
@@ -11,8 +18,8 @@ const userSchema = mongoose.Schema(
       default: "https://api.lorem.space/image/face?w=150&h=150",
     },
   },
-  { collection: "User-Data" }
+  { collection: "User-Data", timestamps: true }
 );
 
 const userModel = mongoose.model("userModel", userSchema);
-module.exports = userModel;
+export default userModel;
