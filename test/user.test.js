@@ -1,6 +1,6 @@
-const app = require("../server").app;
-const chaiHttp = require("chai-http");
-const chai = require("chai");
+import app from "../server";
+import chaiHttp from "chai-http";
+import chai from "chai";
 
 //Assertion Style
 const should = chai.should();
@@ -17,8 +17,7 @@ const user_registration = {
   passWord: "0108joemak",
 };
 
-let token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzg3MDdiNjliMTlkM2RmYzliYzNjZGYiLCJpYXQiOjE2NzQ0NjUxOTIsImV4cCI6MTY3NDU1MTU5Mn0.qD_n-keBi_BTXd9tRiUXZ11gzGi-nJ0hfVTZADGcdnU";
+let token = "";
 
 describe("USERS", () => {
   describe("Authentification", () => {
@@ -58,15 +57,15 @@ describe("USERS", () => {
         });
     });
 
-    // it("It should get users /users", (done) => {
-    //   chai
-    //     .request(app)
-    //     .get("/users")
-    //     .set("Authorization", token)
-    //     .end((err, res) => {
-    //       res.should.have.status(200);
-    //       done();
-    //     });
-    // });
+    it("It should get users /users", (done) => {
+      chai
+        .request(app)
+        .get("/users")
+        .auth(token, { type: "bearer" })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
   });
 });

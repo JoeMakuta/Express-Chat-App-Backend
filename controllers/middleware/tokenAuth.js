@@ -1,17 +1,18 @@
-const jwt = require('jsonwebtoken')
+import jwt from "jsonwebtoken";
+
+const { PAYLOAD } = process.env;
 
 const tokenAuth = (req, res, next) => {
-   try {
-      const sentToken = req.headers.authorization.split(' ')[1];
-      const decodedToken = jwt.verify(sentToken, 'RANDOM_WEB_TOKEN');
-      const userId = decodedToken.userId
-      req.auth = {
-         userId: userId
-      }
-      next()
-   } catch (err) {
-      res.status(401).json({ err });
-   }
-}
+  try {
+    const sentToken = req.headers.authorization.split(" ")[1];
+    const payLoad = jwt.verify(sentToken, PAYLOAD);
+    req.auth = {
+      userId: payLoad.userId,
+    };
+    next();
+  } catch (err) {
+    res.status(401).json({ message: err.message, err: err.stack });
+  }
+};
 
-module.exports = tokenAuth
+export default tokenAuth;

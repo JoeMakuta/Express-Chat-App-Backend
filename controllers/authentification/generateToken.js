@@ -1,12 +1,9 @@
-const jwt = require('jsonwebtoken')
+import jwt from "jsonwebtoken";
+
+const { PAYLOAD } = process.env;
 
 const generateToken = (userId, expiresIn) => {
-   let token = jwt.sign(
-      userId,
-      'RANDOM_WEB_TOKEN',
-      expiresIn
-   )
-   return token
-}
+  return jwt.sign(userId, PAYLOAD, expiresIn);
+};
 
-module.exports = generateToken
+export default generateToken;
