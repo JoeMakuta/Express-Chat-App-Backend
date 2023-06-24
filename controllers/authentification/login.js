@@ -23,6 +23,7 @@ const loginPage = (req, res) => {
             let token = jwt.sign({ userId: user._id }, PAYLOAD, {
               expiresIn: TOKEN_EXPIRES_IN,
             });
+
             res.status(200).json({
               status: 200,
               message: "Successfully logged in!",

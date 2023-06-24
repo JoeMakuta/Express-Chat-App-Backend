@@ -16,10 +16,10 @@ router.post("/login", loginPage);
 router.post("/signup", signUp);
 router.get("/users", tokenAuth, findUsers);
 
-router.post("/newConversation", newConversation);
-router.get("/getConversation/:userId", getConversation);
+router.post("/newConversation", tokenAuth, newConversation);
+router.get("/getConversation/:userId", tokenAuth, getConversation);
 
-router.post("/newMessage/:receiverId", tokenAuth, newMessage);
-router.get("/getMessages", tokenAuth, getMessages);
+router.post("/newMessage/:conversationId", tokenAuth, newMessage);
+router.get("/getMessages/:conversationId", tokenAuth, getMessages);
 
 export default router;
