@@ -2,14 +2,14 @@ import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema(
   {
-    fName: { type: String, required: true },
-    lName: { type: String, required: true },
+    fName: { type: String, required: true, default: "Josh" },
+    lName: { type: String, required: true, default: "Mak" },
     dateOfBirth: {
       type: Date,
       required: true,
       default: Date.now(),
     },
-    userName: { type: String, required: true },
+    userName: { type: String, required: true, unique: true },
     userEmail: { type: String, required: true, unique: true },
     passWord: { type: String, required: true },
     image: {

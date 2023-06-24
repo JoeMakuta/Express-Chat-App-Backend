@@ -1,16 +1,27 @@
+import conversationModel from "../../models/conversation/conversation.js";
 import messageModel from "../../models/message/message.js";
 
-const getMessages = (req, res) => {
-  messageModel
-    .find({
-      $or: [{ senderId: req.auth.userId }, { receiverId: req.auth.userId }],
-    })
-    .then((data) => {
-      res.status(200).json({ messages: data });
-    })
-    .catch((err) => {
-      res.status(500).json({ message: "Could not get messages!" + err });
+const getMessages = async (req, res) => {
+  const { conversationId } = req.params;
+  try {
+    const conversation = await conversationModel.findOne({
+      _id: conversationId,
     });
+    if (conversation) {
+      const messages = await messageModel.find({ conversationId });
+      if (messages[0]) {
+        res.status(200).json({ messages });
+      } else {
+        res.status(404).json({ message: "No Message in this conversation." });
+      }
+    } else {
+      res.status(404).json({ message: "Conversation not found !" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Could not get messages!", error: error.message });
+  }
 };
 
 export default getMessages;
