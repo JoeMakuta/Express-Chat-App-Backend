@@ -30,8 +30,9 @@ const newConversation = async (req, res) => {
           const newConversation = new conversationModel({
             members: users,
           });
+          newConversation.populate("members", "-passWord");
           const data = await newConversation.save();
-          // .populate("members", "-passWord");
+          //
           res.status(200).json(data);
         }
       } else {
