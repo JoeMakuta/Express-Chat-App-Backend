@@ -16,9 +16,11 @@ const newConversation = async (req, res) => {
       });
 
       if (sender[users.length - 1]) {
-        const conversation1 = await conversationModel.findOne({
-          members: { $in: users },
-        });
+        const conversation1 = await conversationModel
+          .findOne({
+            members: { $in: users },
+          })
+          .populate("userModel");
 
         if (conversation1) {
           res.status(200).json(conversation1);
