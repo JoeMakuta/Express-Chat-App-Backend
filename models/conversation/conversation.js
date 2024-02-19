@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const conversationSchema = mongoose.Schema(
   {
-    members: { type: Array },
+    members: [{ type: Schema.Types.ObjectId, ref: "userModel" }],
   },
   { collection: "Conversations-Data", timestamps: true }
 );

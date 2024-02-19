@@ -20,7 +20,7 @@ const newConversation = async (req, res) => {
           .findOne({
             members: { $in: users },
           })
-          .populate("userModel");
+          .populate("members", "userName");
 
         if (conversation1) {
           res.status(200).json(conversation1);
