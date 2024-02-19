@@ -16,9 +16,13 @@ const newConversation = async (req, res) => {
       });
 
       if (sender[users.length - 1]) {
-        const conversation1 = await conversationModel.findOne({
-          members: { $in: users },
-        });
+        const conversation1 = await conversationModel
+          .findOne({
+            members: {
+              $all: [...users],
+            },
+          })
+          .populate("members", "-passWord");
 
         if (conversation1) {
           res.status(200).json(conversation1);
@@ -26,7 +30,9 @@ const newConversation = async (req, res) => {
           const newConversation = new conversationModel({
             members: users,
           });
+          newConversation.populate("members", "-passWord");
           const data = await newConversation.save();
+          //
           res.status(200).json(data);
         }
       } else {
