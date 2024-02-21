@@ -9,10 +9,8 @@ const getMessages = async (req, res) => {
     });
     if (conversation) {
       const messages = await messageModel.find({ conversationId });
-      if (messages[0]) {
+      if (messages) {
         res.status(200).json({ messages });
-      } else {
-        res.status(404).json({ message: "No Message in this conversation." });
       }
     } else {
       res.status(404).json({ message: "Conversation not found !" });
