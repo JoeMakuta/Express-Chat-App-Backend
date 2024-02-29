@@ -8,7 +8,9 @@ const getMessages = async (req, res) => {
       _id: conversationId,
     });
     if (conversation) {
-      const messages = await messageModel.find({ conversationId });
+      const messages = await messageModel
+        .find({ conversationId })
+        .populate("senderId", "-passWord");
       if (messages) {
         res.status(200).json({ messages });
       }

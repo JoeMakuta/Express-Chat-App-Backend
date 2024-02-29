@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const messageSchema = mongoose.Schema(
   {
-    senderId: { type: String },
+    senderId: { type: Schema.Types.ObjectId, ref: "userModel" },
     conversationId: { type: String },
     body: { type: String },
   },
