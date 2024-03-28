@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import router from "./routes/route.js";
 import cors from "cors";
 import dotenv from "dotenv";
+import { Server } from "socket.io";
+import server from "http";
 
 dotenv.config();
 
@@ -17,6 +19,16 @@ mongoose
 
 // Express Application
 const app = express();
+const httpServer = server.createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: [
+      "http://localhost:5173/",
+      "http://express-chat-app-frontend.vercel.app/",
+    ],
+  },
+});
+
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -39,6 +51,11 @@ app.listen(PORT, () => {
   console.log("====================================");
   console.log("The server started on http://localhost:" + PORT);
   console.log("====================================");
+});
+
+//Socket IO
+io.on("connection", (socket) => {
+  socket.emit("connect", { message: "a new client connected" });
 });
 
 export default app;
