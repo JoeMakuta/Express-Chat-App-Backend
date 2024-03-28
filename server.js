@@ -10,6 +10,7 @@ dotenv.config();
 
 const PORT = 5000 || process.env.PORT;
 const dbUrl = process.env.DBURI;
+const frontedUrl = process.env.FRONTEND_URL;
 
 //DB Connection
 mongoose
@@ -19,16 +20,8 @@ mongoose
 
 // Express Application
 const app = express();
-const httpServer = server.createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: [
-      "http://localhost:5173/",
-      "http://express-chat-app-frontend.vercel.app/",
-    ],
-  },
-});
 
+// App middlewares
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -47,15 +40,27 @@ app.use((req, res, next) => {
 });
 app.use("/", router);
 
-app.listen(PORT, () => {
-  console.log("====================================");
-  console.log("The server started on http://localhost:" + PORT);
-  console.log("====================================");
+const httpServer = server.createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: frontedUrl,
+  },
 });
 
 //Socket IO
 io.on("connection", (socket) => {
-  socket.emit("connect", { message: "a new client connected" });
+  console.log("User Connected : ", socket.id);
+  socket.on("send_message", (message) => {
+    socket.broadcast.emit("receive_message", message);
+  });
+});
+
+// The application listens on port 5000
+
+httpServer.listen(PORT, () => {
+  console.log("====================================");
+  console.log("The server started on http://localhost:" + PORT);
+  console.log("====================================");
 });
 
 export default app;
