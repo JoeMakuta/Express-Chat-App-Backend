@@ -50,8 +50,19 @@ const io = new Server(httpServer, {
 //Socket IO
 io.on("connection", (socket) => {
   console.log("User Connected : ", socket.id);
+
+  socket.on("conversation", (conversation) => {
+    socket.join(conversation);
+    console.log("Join conversation : ", conversation);
+  });
+
+  socket.on("leave_conversation", (conversation) => {
+    socket.leave(conversation);
+    console.log("Left conversation : ", conversation);
+  });
+
   socket.on("send_message", (message) => {
-    socket.broadcast.emit("receive_message", message);
+    socket.to(message.conversationId).emit("receive_message", message);
   });
 });
 
